@@ -1,0 +1,3 @@
+numpy
+Theano==0.7
+Pandas==0.18.0

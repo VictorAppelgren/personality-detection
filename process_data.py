@@ -88,11 +88,17 @@ def load_bin_vec(fname, vocab):
     """
     Loads 300x1 word vecs from Google (Mikolov) word2vec
     """
+    print('loading vector')
     word_vecs = {}
     with open(fname, "rb") as f:
+        print('vector loaded, starting processing ')
+        print(f)
         header = f.readline()
         vocab_size, layer1_size = map(int, header.split())
         binary_len = np.dtype(theano.config.floatX).itemsize * layer1_size
+        print('looping through vector')
+        print(xrange(vocab_size))
+        print(binary_len)
         for line in xrange(vocab_size):
             word = []
             while True:
@@ -106,6 +112,7 @@ def load_bin_vec(fname, vocab):
                word_vecs[word] = np.fromstring(f.read(binary_len), dtype=theano.config.floatX)
             else:
                 f.read(binary_len)
+    print('returning vector')
     return word_vecs
 
 def add_unknown_words(word_vecs, vocab, min_df=1, k=300):
@@ -179,4 +186,3 @@ if __name__=="__main__":
     mairesse = get_mairesse_features(mairesse_file)
     cPickle.dump([revs, W, W2, word_idx_map, vocab, mairesse], open("essays_mairesse.p", "wb"))
     print "dataset created!"
-
